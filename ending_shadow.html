@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>阴影 · 江陵县福利院</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1410;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+            color: #d6c9b8;
+        }
+
+        .ending-wrapper {
+            max-width: 640px;
+            width: 100%;
+            background: #f7f2e6;
+            border: 4px double #4a3d30;
+            padding: 36px 40px 28px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .header {
+            border-bottom: 3px double #b8a68b;
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .header .badge {
+            font-size: 12px;
+            color: #6a3a2a;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #3d3228;
+            letter-spacing: 6px;
+            margin-top: 4px;
+        }
+
+        .content {
+            font-size: 14px;
+            color: #4a3d30;
+            line-height: 2.2;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+        }
+
+        .content .highlight {
+            color: #8a3a2a;
+            font-weight: bold;
+        }
+
+        .content .quote-block {
+            display: block;
+            padding: 10px 16px;
+            margin: 8px 0 10px 12px;
+            border-left: 3px solid #c9a090;
+            background: rgba(200, 185, 165, 0.1);
+            color: #5a4a38;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px solid #ddd0bf;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer a {
+            color: #6a5a48;
+            text-decoration: none;
+            font-size: 13px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            padding: 2px 4px;
+        }
+
+        .footer a:hover {
+            border-bottom-color: #b8a68b;
+            color: #3d3228;
+        }
+
+        @media (max-width: 640px) {
+            .ending-wrapper {
+                padding: 20px 16px;
+            }
+            .header h1 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+            .content {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ending-wrapper">
+
+        <div class="header">
+            <div class="badge">● 阴影</div>
+            <h1>他从未离开</h1>
+        </div>
+
+        <div class="content">
+            <p>你查了所有记录。收养家庭的档案全部是伪造的。</p>
+            <p>周建国这个人，在福利院档案中出现过，但查不到任何社保、户籍、身份证记录。</p>
+            <p>1995年之后，周建国消失了。</p>
+            <p>陈秋生消失了。</p>
+            <p>42码脚印消失了。</p>
+            <p>陈秋生说过的话一直徘徊在你脑海里：</p>
+
+            <div class="quote-block">
+                “我去了一个很黑的地方，有个叔叔让我别说话。”
+            </div>
+
+            <p>你开始怀疑——那个“很黑的地方”是什么？</p>
+            <p>周怀义的记录里写：“面粉上有一个脚印，不是孩子的尺寸。”</p>
+            <p>但周怀义没有写——那个脚印<span class="highlight">是朝向窗外的</span>。</p>
+            <p>有人从窗外走进来。</p>
+            <p>有人在陈秋生的房间里留下了一个脚印。</p>
+            <p>然后带走了他。</p>
+
+            <p style="margin-top:14px; padding-top:12px; border-top:2px solid #ddd0bf; color:#6a3a2a; font-weight:bold; text-align:center;">
+                阴影：福利院关停那天，陈秋生没有离开。<br />
+                他被带去了另一个地方。<br />
+                那个地方，在地下。
+            </p>
+
+            <p style="color:#8a7a6a; font-size:12px; text-align:center; margin-top:8px;">
+                —— 此后再也没有人见过陈秋生。<br />
+                如果你还想找他，只能往地下走。
+            </p>
+        </div>
+
+        <div class="footer">
+            <a href="final.html">← 重新选择</a>
+            <a href="index.html">🕐 返回时光机</a>
+        </div>
+
+    </div>
+
+    <script>
+        console.clear();
+        console.log('%c🌙 阴影结局', 'font-size:16px; color:#6a3a2a; font-weight:bold;');
+        console.log('%c💡 陈秋生被带到了一个“地下”的地方', 'font-size:13px; color:#8a7a6a;');
+        console.log('%c💡 福利院下面，可能还有另一层。', 'font-size:13px; color:#8a7a6a;');
+    </script>
+
+</body>
+</html>

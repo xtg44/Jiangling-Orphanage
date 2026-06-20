@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>江陵县档案馆 · 民政档案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e4dc;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            padding: 20px 16px 40px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: #222;
+        }
+
+        .archive-wrapper {
+            max-width: 800px;
+            width: 100%;
+            background: #f5f0e8;
+            border: 2px solid #b0a898;
+            padding: 24px 28px 20px;
+        }
+
+        /* ===== 头部 ===== */
+        .archive-header {
+            border-bottom: 3px double #b0a898;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .archive-header .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2a1a1a;
+            letter-spacing: 2px;
+        }
+
+        .archive-header .badge {
+            font-size: 12px;
+            color: #8a7a6a;
+            letter-spacing: 1px;
+        }
+
+        /* ===== 导航 ===== */
+        .archive-nav {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #b0a898;
+            margin-bottom: 16px;
+            background: #e8e0d6;
+        }
+
+        .archive-nav a {
+            padding: 6px 18px;
+            color: #4a3d30;
+            text-decoration: none;
+            font-size: 14px;
+            border-right: 1px solid #b0a898;
+        }
+
+        .archive-nav a:hover {
+            background: #d8d0c8;
+        }
+
+        .archive-nav a.active {
+            background: #f5f0e8;
+            font-weight: bold;
+        }
+
+        /* ===== 搜索栏 ===== */
+        .search-bar {
+            background: #e8e0d6;
+            border: 1px solid #b0a898;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar .label {
+            font-size: 13px;
+            color: #4a3d30;
+            font-weight: bold;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 4px 10px;
+            font-size: 13px;
+            font-family: "宋体", "SimSun", serif;
+            border: 1px solid #b0a898;
+            background: #fcf8f0;
+            color: #2a1a1a;
+            outline: none;
+        }
+
+        .search-bar input:focus {
+            border-color: #6a5a4a;
+        }
+
+        .search-bar button {
+            padding: 4px 16px;
+            font-size: 13px;
+            font-family: "宋体", "SimSun", serif;
+            background: #b0a898;
+            border: 1px solid #b0a898;
+            color: #f5f0e8;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background: #8a7a6a;
+        }
+
+        /* ===== 档案卡片 ===== */
+        .file-card {
+            border: 1px solid #b0a898;
+            margin-bottom: 14px;
+            background: #fcf8f0;
+        }
+
+        .file-card .file-header {
+            background: #e8e0d6;
+            padding: 8px 14px;
+            border-bottom: 1px solid #b0a898;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .file-card .file-header .file-id {
+            font-weight: bold;
+            color: #2a1a1a;
+        }
+
+        .file-card .file-header .file-date {
+            color: #6a5a4a;
+        }
+
+        .file-card .file-body {
+            padding: 14px 18px;
+            font-size: 14px;
+            line-height: 2.2;
+            color: #2a1a1a;
+        }
+
+        .file-card .file-body .field {
+            display: flex;
+            gap: 12px;
+            padding: 2px 0;
+        }
+
+        .file-card .file-body .field .label {
+            font-weight: bold;
+            min-width: 80px;
+            color: #4a3d30;
+        }
+
+        .file-card .file-body .field .value {
+            color: #2a1a1a;
+        }
+
+        /* ===== 安置名单表格 ===== */
+        .list-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 6px;
+            font-family: "宋体", "SimSun", serif;
+        }
+
+        .list-table th {
+            background: #e8e0d6;
+            padding: 6px 10px;
+            border: 1px solid #b0a898;
+            text-align: left;
+            font-weight: bold;
+            color: #2a1a1a;
+        }
+
+        .list-table td {
+            padding: 6px 10px;
+            border: 1px solid #b0a898;
+            color: #2a1a1a;
+        }
+
+        .list-table .redacted {
+            background: #2a2a2a;
+            color: #2a2a2a;
+            padding: 0 12px;
+            letter-spacing: 4px;
+            user-select: none;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .list-table .highlight-name {
+            color: #b83030;
+            font-weight: bold;
+        }
+
+        .list-table .highlight-name a {
+            color: #b83030;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .list-table .highlight-name a:hover {
+            color: #8a1a1a;
+        }
+
+        /* ===== 底部签名 ===== */
+        .signature-block {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 2px solid #b0a898;
+            font-size: 13px;
+            color: #4a3d30;
+            text-align: right;
+            line-height: 2;
+        }
+
+        .signature-block .signature {
+            font-family: "KaiTi", "楷体", serif;
+            font-size: 18px;
+            letter-spacing: 4px;
+        }
+
+        /* ===== 底部 ===== */
+        .archive-footer {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 2px solid #b0a898;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12px;
+            color: #8a7a6a;
+        }
+
+        .archive-footer a {
+            color: #4a3d30;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .archive-footer a:hover {
+            border-bottom-color: #4a3d30;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 640px) {
+            .archive-wrapper {
+                padding: 14px 14px 16px;
+            }
+            .archive-header .title {
+                font-size: 18px;
+            }
+            .file-card .file-body {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .list-table {
+                font-size: 12px;
+            }
+            .list-table th,
+            .list-table td {
+                padding: 4px 6px;
+            }
+            .search-bar {
+                flex-wrap: wrap;
+            }
+            .search-bar input {
+                width: 100%;
+            }
+            .archive-nav a {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .archive-wrapper {
+                padding: 10px 8px 12px;
+            }
+            .list-table {
+                font-size: 11px;
+            }
+            .list-table th,
+            .list-table td {
+                padding: 3px 4px;
+            }
+            .file-card .file-body .field {
+                flex-direction: column;
+                gap: 0;
+            }
+            .file-card .file-body .field .label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="archive-wrapper">
+
+        <!-- ===== 头部 ===== -->
+        <div class="archive-header">
+            <div class="title">📂 江陵县档案馆</div>
+            <div class="badge">民政档案 · 1995年</div>
+        </div>
+
+        <!-- ===== 导航 ===== -->
+        <div class="archive-nav">
+            <a href="#" class="active">档案查询</a>
+            <a href="#" onclick="alert('📄 页面建设中')">目录</a>
+            <a href="#" onclick="alert('📄 页面建设中')">关于</a>
+        </div>
+
+        <!-- ===== 搜索栏 ===== -->
+        <div class="search-bar">
+            <span class="label">🔍 检索：</span>
+            <input type="text" id="archiveSearch" placeholder="输入关键词..." />
+            <button onclick="doArchiveSearch()">查询</button>
+        </div>
+
+        <!-- ===== 档案卡片：安置名单 ===== -->
+        <div class="file-card">
+            <div class="file-header">
+                <span class="file-id">📄 案卷号：1995-MZ-0042</span>
+                <span class="file-date">归档日期：1995年10月15日</span>
+            </div>
+            <div class="file-body">
+
+                <div class="field">
+                    <span class="label">标题：</span>
+                    <span class="value">江陵县福利院 · 儿童安置名单（最后一批）</span>
+                </div>
+                <div class="field">
+                    <span class="label">年份：</span>
+                    <span class="value">1995年</span>
+                </div>
+                <div class="field">
+                    <span class="label">经办人：</span>
+                    <span class="value">周怀义（院长）</span>
+                </div>
+
+                <div style="margin-top: 10px; font-size:13px; color:#6a5a4a; border-top:1px solid #d8d0c8; padding-top:8px;">
+                    ⚠️ 以下名单为福利院最后一批在册儿童，部分信息因档案保护规定已做脱敏处理。
+                </div>
+
+                <!-- 安置名单表格 -->
+                <table class="list-table">
+                    <thead>
+                        <tr>
+                            <th style="width:40px;">编号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>出生年份</th>
+                            <th>安置去向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>04</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>05</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>06</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>07</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>08</td>
+                            <td><span class="highlight-name">陈秋生</span></td>
+                            <td>男</td>
+                            <td>1990年</td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>09</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■</span></td>
+                            <td><span class="redacted">■■■■</span></td>
+                            <td><span class="redacted">■■■■■■</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top:6px; font-size:12px; color:#8a7a6a; text-align:right;">
+                    * 共计 10 名儿童，名单编号按档案原始顺序排列。
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== 签名 ===== -->
+        <div class="signature-block" id="zhouhuaiyi">
+            <div>经办人：<span class="signature">周怀义</span></div>
+            <div style="font-size:12px; color:#8a7a6a;">日期：1995年10月15日</div>
+        </div>
+        <!-- ===== 个人文件夹入口（搜索周怀义后显示） ===== -->
+        <div id="folderEntry" style="display:none; margin-top:16px; padding:12px 16px; background:#fcf8f0; border:2px solid #b0a898; text-align:center;">
+            <p style="font-size:14px; color:#2a1a1a; margin-bottom:4px;">📁 相关档案</p>
+            <a href="password.html" style="font-size:16px; color:#b83030; font-weight:bold; text-decoration:underline;">
+                个人文件夹 —— 周怀义 →
+            </a>
+            <p style="font-size:12px; color:#8a7a6a; margin-top:4px;">* 该文件夹需要密码访问</p>
+        </div>
+
+        <!-- ===== 底部 ===== -->
+        <div class="archive-footer">
+            <a href="index.html">← 返回时光机</a>
+            <a href="forum.html">📋 返回论坛</a>
+            <span>© 江陵县档案馆</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 搜索功能
+        // ================================================================
+        function doArchiveSearch() {
+            var input = document.getElementById('archiveSearch');
+            var query = input.value.trim().toLowerCase();
+
+            if (!query) {
+                alert('请输入关键词');
+                return;
+            }
+
+            if (query === '陈秋生' || query === '陈秋生') {
+                window.location.href = 'chenqiusheng.html';
+                return;
+            }
+
+            if (query === '周怀义' || query === '院长') {
+                // 显示个人文件夹入口
+                var entry = document.getElementById('folderEntry');
+                if (entry) {
+                    entry.style.display = 'block';
+                    entry.style.animation = 'fadeIn 0.5s ease';
+                }
+                // 滚动到签名区
+                var target = document.getElementById('zhouhuaiyi');
+                if (target) {
+                    setTimeout(function() {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+                return;
+            }
+
+            if (query === '福利院' || query === '安置名单' || query === '1995') {
+                window.location.href = 'archive.html';
+                return;
+            }
+
+            alert('🔍 未找到与“' + input.value + '”相关的档案\n\n试试搜索：陈秋生、周怀义、福利院、1995');
+        }
+    </script>
+
+</body>
+</html>

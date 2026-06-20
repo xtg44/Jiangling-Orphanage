@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>最终抉择 · 江陵县福利院</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1410;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+            color: #d6c9b8;
+        }
+
+        .final-wrapper {
+            max-width: 640px;
+            width: 100%;
+            background: #f7f2e6;
+            border: 4px double #4a3d30;
+            padding: 36px 40px 28px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .header {
+            border-bottom: 3px double #b8a68b;
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .header .sub {
+            font-size: 13px;
+            color: #8f7d66;
+            letter-spacing: 4px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #3d3228;
+            letter-spacing: 6px;
+            margin-top: 4px;
+        }
+
+        .intro {
+            font-size: 14px;
+            color: #4a3d30;
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .choice-area {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            flex: 1;
+            min-width: 180px;
+            max-width: 260px;
+            padding: 18px 20px;
+            font-size: 15px;
+            font-family: "宋体", "SimSun", serif;
+            background: #fcf8f0;
+            border: 2px solid #b8a68b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            color: #4a3d30;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .choice-btn:hover {
+            border-color: #8a3a2a;
+            background: rgba(180, 60, 50, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(60, 40, 20, 0.1);
+        }
+
+        .choice-btn .icon {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .choice-btn .desc {
+            font-size: 12px;
+            color: #8f7d66;
+            margin-top: 4px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px solid #ddd0bf;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer a {
+            color: #6a5a48;
+            text-decoration: none;
+            font-size: 13px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            padding: 2px 4px;
+        }
+
+        .footer a:hover {
+            border-bottom-color: #b8a68b;
+            color: #3d3228;
+        }
+
+        /* ===== 隐藏彩蛋 ===== */
+        .egg-area {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 2px solid #ddd0bf;
+            text-align: center;
+            position: relative;
+        }
+
+        .egg-trigger {
+            color: #ddd0bf;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s;
+            display: inline-block;
+            padding: 0 8px;
+        }
+
+        .egg-trigger:hover {
+            color: #8a7a6a;
+        }
+
+        .egg-input-wrapper {
+            display: none;
+            margin-top: 8px;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .egg-input-wrapper.show {
+            display: flex;
+        }
+
+        .egg-input-wrapper input {
+            padding: 6px 12px;
+            font-size: 18px;
+            font-family: "宋体", "SimSun", serif;
+            text-align: center;
+            letter-spacing: 6px;
+            border: 2px solid #b8a68b;
+            background: #fcf8f0;
+            color: #4a3d30;
+            outline: none;
+            width: 140px;
+        }
+
+        .egg-input-wrapper input:focus {
+            border-color: #8a7a6a;
+        }
+
+        .egg-input-wrapper button {
+            padding: 6px 16px;
+            font-size: 16px;
+            font-family: "宋体", "SimSun", serif;
+            background: #b8a68b;
+            border: 2px solid #b8a68b;
+            color: #f7f2e6;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .egg-input-wrapper button:hover {
+            background: #8f7d66;
+            border-color: #8f7d66;
+        }
+
+        .egg-error {
+            font-size: 13px;
+            color: #8a3a2a;
+            min-height: 22px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 640px) {
+            .final-wrapper {
+                padding: 20px 16px;
+            }
+            .header h1 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+            .choice-area {
+                flex-direction: column;
+                align-items: center;
+            }
+            .choice-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+            .egg-input-wrapper input {
+                width: 110px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="final-wrapper">
+
+        <div class="header">
+            <div class="sub">· 江陵县 · 1995 ·</div>
+            <h1>最终抉择</h1>
+        </div>
+
+        <div class="intro">
+            你追查了陈秋生三十年。<br />
+            现在，你站在真相的门口。<br />
+            陈秋生随收养家庭迁离江陵县后，再也没有人见过他。<br />
+            42码脚印消失在同一天。<br />
+            <br />
+            你相信哪一个？
+        </div>
+
+        <div class="choice-area">
+            <a href="ending_truth.html" class="choice-btn">
+                <span class="icon">📋</span>
+                真相
+                <span class="desc">陈秋生被人带走了<br />背后有一个阴谋</span>
+            </a>
+            <a href="ending_shadow.html" class="choice-btn">
+                <span class="icon">🌙</span>
+                阴影
+                <span class="desc">陈秋生被“别的东西”带走了<br />超自然现象真的存在</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <a href="chen_after.html">← 返回陈秋生档案</a>
+            <a href="index.html">🕐 返回时光机</a>
+        </div>
+
+        <!-- ===== 隐藏彩蛋输入框 ===== -->
+        <div class="egg-area">
+            <div class="egg-trigger" onclick="showEggInput()">·</div>
+            <div class="egg-input-wrapper" id="eggInputWrapper">
+                <input type="password" id="eggInput" maxlength="4" placeholder="— — — —" />
+                <button onclick="checkEgg()">→</button>
+            </div>
+            <div class="egg-error" id="eggError"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 隐藏彩蛋
+        // ================================================================
+        function showEggInput() {
+            var wrapper = document.getElementById('eggInputWrapper');
+            if (wrapper) {
+                wrapper.classList.toggle('show');
+                if (wrapper.classList.contains('show')) {
+                    document.getElementById('eggInput').focus();
+                }
+            }
+        }
+
+        function checkEgg() {
+            var input = document.getElementById('eggInput');
+            var error = document.getElementById('eggError');
+            var val = input.value.trim();
+
+            if (val === '0521') {
+                error.textContent = '';
+                window.location.href = 'ending_secret.html';
+            } else if (val === '') {
+                error.textContent = '⚠️ 请输入密码';
+            } else {
+                error.textContent = '❌ 没有反应';
+                input.value = '';
+                input.focus();
+                setTimeout(function() {
+                    error.textContent = '';
+                }, 2000);
+            }
+        }
+
+        document.getElementById('eggInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkEgg();
+        });
+
+        console.clear();
+        console.log('%c⚖️ 最终抉择', 'font-size:18px; color:#3d3228; font-weight:bold;');
+        console.log('%c💡 底部有一个很小的 · 点击它试试', 'font-size:13px; color:#8f7d66;');
+    </script>
+
+</body>
+</html>

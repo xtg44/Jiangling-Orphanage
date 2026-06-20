@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网页时光机 · 江陵县存档中心</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <div class="header">
+            <div class="logo">
+                <span class="icon">🕐</span>
+                <span class="name">网页时光机</span>
+            </div>
+            <div class="sub">江陵县 · 数字存档中心</div>
+            <div class="sub" style="font-size:11px; color:#b0b8c0; letter-spacing:2px; margin-top:2px;">记录更多美好</div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-row">
+                <span class="protocol">https://</span>
+                <input type="text" id="urlInput" value="fuliyuan.jiangling.gov.cn" />
+                <button onclick="doSearch()">检索</button>
+            </div>
+            <div class="error-msg" id="errorMsg">⚠️ 未找到该网址的存档记录</div>
+        </div>
+
+        <div class="result-area" id="resultArea">
+            <div class="stats">
+                找到 <span class="num">3</span> 个快照
+            </div>
+
+            <a href="snapshot/index.html?year=1990" class="snapshot">
+                <div class="left">
+                    <div class="year">1990年</div>
+                    <div class="date">1990年6月15日</div>
+                </div>
+                <div class="right">
+                    <span class="tag">存档</span>
+                    <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="snapshot/index.html?year=1992" class="snapshot">
+                <div class="left">
+                    <div class="year">1992年</div>
+                    <div class="date">1992年9月22日</div>
+                </div>
+                <div class="right">
+                    <span class="tag">存档</span>
+                    <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="snapshot/index.html?year=1995" class="snapshot">
+                <div class="left">
+                    <div class="year">1995年</div>
+                    <div class="date">1995年10月12日</div>
+                </div>
+                <div class="right">
+                    <span class="tag latest">最后快照</span>
+                    <span class="arrow">→</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <a href="#">关于</a> · <a href="#">帮助</a> · <span>© 2026 存档中心</span>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>42码 · 身份不明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8e4dc;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            padding: 20px 16px 40px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: #222;
+        }
+
+        .wrapper {
+            max-width: 700px;
+            width: 100%;
+            background: #f5f0e8;
+            border: 2px solid #b0a898;
+            padding: 24px 28px 20px;
+        }
+
+        .header {
+            border-bottom: 3px double #b0a898;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .header .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2a1a1a;
+            letter-spacing: 2px;
+        }
+
+        .header .sub {
+            font-size: 12px;
+            color: #8a7a6a;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .card {
+            border: 1px solid #b0a898;
+            background: #fcf8f0;
+            margin-bottom: 14px;
+        }
+
+        .card .card-header {
+            background: #e8e0d6;
+            padding: 8px 14px;
+            border-bottom: 1px solid #b0a898;
+            font-weight: bold;
+            font-size: 14px;
+            color: #2a1a1a;
+        }
+
+        .card .card-body {
+            padding: 14px 18px;
+            font-size: 14px;
+            line-height: 2.2;
+            color: #2a1a1a;
+        }
+
+        .card .card-body .field {
+            display: flex;
+            gap: 12px;
+            padding: 2px 0;
+        }
+
+        .card .card-body .field .label {
+            font-weight: bold;
+            min-width: 80px;
+            color: #4a3d30;
+        }
+
+        .card .card-body .field .value {
+            color: #2a1a1a;
+        }
+
+        .card .card-body .field .value .redacted {
+            background: #2a2a2a;
+            color: #2a2a2a;
+            padding: 0 12px;
+            letter-spacing: 4px;
+            user-select: none;
+            border-radius: 2px;
+        }
+
+        .note-block {
+            background: #fcf8f0;
+            border: 1px solid #b0a898;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #4a3d30;
+            line-height: 2;
+        }
+
+        .note-block .highlight {
+            color: #b83030;
+        }
+
+        .footer {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 2px solid #b0a898;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12px;
+            color: #8a7a6a;
+        }
+
+        .footer a {
+            color: #4a3d30;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .footer a:hover {
+            border-bottom-color: #4a3d30;
+        }
+
+        @media (max-width: 640px) {
+            .wrapper {
+                padding: 14px 14px 16px;
+            }
+            .header .title {
+                font-size: 17px;
+            }
+            .card .card-body {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .card .card-body .field {
+                flex-direction: column;
+                gap: 0;
+            }
+            .card .card-body .field .label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <div class="header">
+            <div class="title">👤 身份不明 · 42码</div>
+            <div class="sub">江陵县福利院 · 未解人员</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">📋 基本信息</div>
+            <div class="card-body">
+                <div class="field">
+                    <span class="label">姓名：</span>
+                    <span class="value">未知</span>
+                </div>
+                <div class="field">
+                    <span class="label">性别：</span>
+                    <span class="value">未知</span>
+                </div>
+                <div class="field">
+                    <span class="label">身高：</span>
+                    <span class="value">约 175cm</span>
+                </div>
+                <div class="field">
+                    <span class="label">鞋码：</span>
+                    <span class="value">42码</span>
+                </div>
+                <div class="field">
+                    <span class="label">首次发现：</span>
+                    <span class="value">1992年11月（福利院东侧走廊）</span>
+                </div>
+                <div class="field">
+                    <span class="label">最后出现：</span>
+                    <span class="value">1993年5月（陈秋生宿舍窗台）</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-block">
+            <strong>📌 备注</strong><br />
+            此人身份至今无法确认。<br />
+            福利院员工及访客记录中 <span class="highlight">找不到任何匹配的鞋码记录</span>。<br />
+            陈秋生 1992 年曾提到：“有个叔叔让我别说话。”<br />
+            警方从未对此进行过调查。
+            <div style="margin-top:6px; font-size:12px; color:#8a7a6a; text-align:right;">
+                —— 档案编号：FLY-UNKNOWN-001 · 最后更新：1993年
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="zhou_folder.html">← 返回周怀义文件夹</a>
+            <a href="chen_after.html">📋 追踪陈秋生的下落 →</a>
+            <a href="index.html">🕐 返回时光机</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
