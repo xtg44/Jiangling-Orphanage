@@ -472,20 +472,26 @@
     </div>
 
     <script>
-        // ================================================================
-        // 搜索功能
-        // ================================================================
-        function doArchiveSearch() {
-            var input = document.getElementById('archiveSearch');
-            var query = input.value.trim().toLowerCase();
+    // ================================================================
+    // 搜索功能（手机端优化）
+    // ================================================================
+    function doArchiveSearch() {
+        var input = document.getElementById('archiveSearch');
+        var query = input.value.trim().toLowerCase();
 
-            if (!query) {
-                alert('请输入关键词');
-                return;
-            }
+        if (!query) {
+            alert('请输入关键词');
+            return;
+        }
 
+        // 防止快速重复点击导致卡顿
+        if (window._searching) return;
+        window._searching = true;
+
+        try {
             if (query === '陈秋生' || query === '陈秋生') {
                 window.location.href = 'chenqiusheng.html';
+                window._searching = false;
                 return;
             }
 
@@ -493,31 +499,40 @@
                 var entry = document.getElementById('folderEntry');
                 if (entry) {
                     entry.style.display = 'block';
+                    // 使用 scrollTop 代替 scrollIntoView，手机端更稳定
+                    var target = document.getElementById('zhouhuaiyi');
+                    if (target) {
+                        var rect = target.getBoundingClientRect();
+                        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        var targetTop = rect.top + scrollTop - 60;
+                        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                    }
                 }
-                var target = document.getElementById('zhouhuaiyi');
-                if (target) {
-                    setTimeout(function() {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 100);
-                }
+                window._searching = false;
                 return;
             }
 
             if (query === '福利院' || query === '安置名单' || query === '1995') {
                 window.location.href = 'archive.html';
+                window._searching = false;
                 return;
             }
 
             alert('🔍 未找到与“' + input.value + '”相关的档案');
+        } catch (e) {
+            console.log('搜索出错:', e);
         }
 
-        document.getElementById('archiveSearch').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') doArchiveSearch();
-        });
+        window._searching = false;
+    }
 
-        console.clear();
-        console.log('%c📂 江陵县档案馆', 'font-size:16px; color:#2a1a1a; font-weight:bold;');
-        console.log('%c💡 安置名单下方有“相关儿童档案”入口', 'font-size:13px; color:#8a7a6a;');
+    // 回车触发搜索
+    document.getElementById('archiveSearch').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            doArchiveSearch();
+        }
+    });
     </script>
 
 </body>
