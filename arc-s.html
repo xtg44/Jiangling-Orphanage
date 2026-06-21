@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>超自然档案馆 · 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0d0d;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            padding: 20px 16px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #c0b8b0;
+        }
+
+        .wrapper {
+            max-width: 700px;
+            width: 100%;
+            background: #121212;
+            border: 2px solid #2a2a2a;
+            padding: 32px 36px 28px;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+        }
+
+        /* ===== 水印 ===== */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 60px;
+            color: rgba(180, 40, 40, 0.03);
+            font-weight: bold;
+            letter-spacing: 10px;
+            pointer-events: none;
+            user-select: none;
+            font-family: "Times New Roman", serif;
+            z-index: 0;
+            white-space: nowrap;
+        }
+
+        .watermark-sm {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 10px;
+            color: rgba(180, 40, 40, 0.10);
+            letter-spacing: 2px;
+            pointer-events: none;
+            user-select: none;
+            font-family: "Courier New", monospace;
+            z-index: 1;
+        }
+
+        .header {
+            border-bottom: 2px solid #2a2a2a;
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .header .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #b0a898;
+            letter-spacing: 4px;
+        }
+
+        .header .title .red {
+            color: #883333;
+        }
+
+        .header .sub {
+            font-size: 12px;
+            color: #553333;
+            letter-spacing: 3px;
+            margin-top: 2px;
+        }
+
+        /* ===== 登录表单 ===== */
+        .login-area {
+            position: relative;
+            z-index: 1;
+            padding: 20px 0 10px;
+        }
+
+        .login-area .label {
+            font-size: 13px;
+            color: #666;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .login-area .input-group {
+            margin-bottom: 12px;
+        }
+
+        .login-area .input-group input {
+            width: 100%;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-family: "Courier New", monospace;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: #aaa;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .login-area .input-group input:focus {
+            border-color: #444;
+        }
+
+        .login-area .input-group input::placeholder {
+            color: #333;
+        }
+
+        .login-area .login-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            font-family: "宋体", "SimSun", serif;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 4px;
+        }
+
+        .login-area .login-btn:hover {
+            border-color: #444;
+            color: #aaa;
+        }
+
+        .login-area .error-msg {
+            font-size: 13px;
+            color: #883333;
+            min-height: 22px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* ===== 档案列表（登录后显示） ===== */
+        .archive-list {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .archive-list.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .archive-item {
+            border: 1px solid #1a1a1a;
+            background: #0a0a0a;
+            transition: border-color 0.2s;
+        }
+
+        .archive-item:hover {
+            border-color: #2a2a2a;
+        }
+
+        .archive-item .item-header {
+            padding: 8px 14px;
+            background: #0d0d0d;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px;
+            font-size: 13px;
+            color: #888;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .archive-item .item-header:hover {
+            background: #141414;
+        }
+
+        .archive-item .item-header .id {
+            color: #664444;
+            font-weight: bold;
+            font-family: "Courier New", monospace;
+        }
+
+        .archive-item .item-header .title {
+            color: #aaa;
+        }
+
+        .archive-item .item-header .arrow {
+            color: #333;
+        }
+
+        .archive-item .item-body {
+            display: none;
+            padding: 12px 16px;
+            font-size: 13px;
+            line-height: 2.2;
+            color: #888;
+            background: #080808;
+        }
+
+        .archive-item .item-body.open {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .archive-item .item-body .highlight {
+            color: #aa6a5a;
+        }
+
+        .archive-item .item-body .red {
+            color: #883333;
+        }
+
+        .archive-item .item-body .muted {
+            color: #444;
+            font-size: 12px;
+        }
+
+        .archive-item .item-body .block {
+            background: #0a0a0a;
+            border-left: 3px solid #2a2a2a;
+            padding: 6px 12px;
+            margin: 4px 0 6px 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .archive-item .item-body .divider {
+            border-top: 1px solid #1a1a1a;
+            margin: 8px 0;
+            padding-top: 8px;
+        }
+
+        /* ===== 底部 ===== */
+        .footer {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 2px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 11px;
+            color: #333;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer a {
+            color: #444;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .footer a:hover {
+            color: #666;
+            border-bottom-color: #444;
+        }
+
+        .footer .review {
+            color: #2a2a2a;
+            letter-spacing: 1px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 640px) {
+            .wrapper {
+                padding: 20px 18px 16px;
+            }
+            .header .title {
+                font-size: 18px;
+            }
+            .watermark {
+                font-size: 36px;
+            }
+            .archive-item .item-header {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .archive-item .item-body {
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+            .login-area .input-group input {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .wrapper {
+                padding: 14px 10px 12px;
+            }
+            .archive-item .item-body {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <div class="watermark">内部·机密</div>
+        <div class="watermark-sm">ARC-S · -1F</div>
+
+        <div class="header">
+            <span class="icon">📂</span>
+            <div class="title"><span class="red">·</span> 超自然档案馆 <span class="red">·</span></div>
+            <div class="sub">内部 · 机密</div>
+        </div>
+
+        <!-- ===== 登录表单 ===== -->
+        <div class="login-area" id="loginArea">
+            <div class="label">🔒 工作人员验证</div>
+            <div class="input-group">
+                <input type="text" id="usernameInput" placeholder="账号" />
+            </div>
+            <div class="input-group">
+                <input type="password" id="passwordInput" placeholder="密码" />
+            </div>
+            <button class="login-btn" onclick="doLogin()">登录</button>
+            <div class="error-msg" id="loginError"></div>
+        </div>
+
+        <!-- ===== 档案列表（登录后显示） ===== -->
+        <div class="archive-list" id="archiveList">
+
+            <!-- S-001-01 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">S-001-01</span>
+                    <span class="title">静默者 · 首次记录</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1990年8月12日</p>
+                    <p><strong>事件类型：</strong>未知声音</p>
+                    <p><strong>位置：</strong>江陵县西郊 · 福利院施工区</p>
+                    <div class="block">
+                        <strong>事件描述：</strong><br />
+                        1990年6月，施工队在福利院东侧空地进行地基加固作业时，<br />
+                        一名工人报告称听到地下传来“低沉的、有节奏的呼吸声”。<br />
+                        该工人为资深建筑工人，从业20年，坚称那不是机械声。<br />
+                        施工队主管报告至档案馆，档案馆派员前往调查。<br />
+                        调查当天未发现异常声音，施工队主管签署“无异常”报告，事件结案。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：该工人的名字在后来的记录中被涂黑。<br />施工队半年后解散，无人追踪。</p>
+                </div>
+            </div>
+
+            <!-- S-001-02 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">S-001-02</span>
+                    <span class="title">静默者 · 行为观察</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1993年12月</p>
+                    <p><strong>观察周期：</strong>1990-1993年</p>
+                    <div class="block">
+                        <strong>收容所正式录入实体“静默者” 编号S-001</strong><br />
+                        观察结论：<br />
+                        1. 静默者不主动接近成年人。<br />
+                        2. 静默者会模仿儿童的声音和动作，但模仿不完全。<br />
+                        3. 静默者的脚印尺寸为42码，推测其形态为男性成年人尺寸。<br />
+                        4. 静默者的活动范围局限在福利院及周边500米范围内。<br />
+                        5. 静默者似乎对“睡眠状态”的人类儿童最感兴趣。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：1993年5月，福利院院长周怀义在窗台发现42码脚印，与观察结论一致。</p>
+                </div>
+            </div>
+
+            <!-- M-001-01 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">M-001-01</span>
+                    <span class="title">镜层 · 初步勘探</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1982年4月</p>
+                    <p><strong>报告来源：</strong>江陵县科学中心</p>
+                    <div class="block">
+                        <strong>收容所正式录入超自然空间“镜层” 编号M-001</strong><br />
+                        在江陵县福利院原址下方约60-80米处，发现一处天然空腔结构。<br />
+                        该空间肉眼无法直接观测 但是科学家检测到了来自此空间的信号。<br />
+                        空腔顶部岩层具有异常的光学反射特性，疑似天然形成的“镜面效应”。<br />
+                        报告建议进一步勘探，但后续未获批准。<br />
+                        报告归档后无人再查阅。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：该报告是镜层存在的唯一纸质证据。<br />1995年福利院关停后，报告被转入本档案馆。</p>
+                </div>
+            </div>
+
+            <!-- M-001-02 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">M-001-02</span>
+                    <span class="title">镜层 · 儿童滞留报告</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1995年12月3日</p>
+                    <p><strong>统计范围：</strong>1970-1995年</p>
+                    <div class="block">
+                        <strong>共记录：37名儿童</strong><br />
+                        年龄区间：3-7岁<br /><br />
+                        <strong>失踪地点分布：</strong><br />
+                        · 福利院原址：19人<br />
+                        · 福利院周边1公里内：12人<br />
+                        · 其他区域：6人<br /><br />
+                        <strong>现象描述：</strong><br />
+                        所有失踪儿童均未找到遗体。<br />
+                        所有失踪儿童的档案均在1995年后被修改。<br />
+                        所有失踪儿童的安置去向栏中，均出现了 <span class="red">“美丽的世界”</span> 字样。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 结论：上述儿童极有可能已经进入镜层。<br />至今无一返回（陈秋生除外）。</p>
+                </div>
+            </div>
+
+            <!-- F-001 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">F-001</span>
+                    <span class="title">302室 · 内部调查</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>2005-2022年</p>
+                    <p><strong>关联地点：</strong>永宁路18号302室</p>
+                    <div class="block">
+                        <strong>案件记录：</strong><br />
+                        · 2005年：张秀兰（63岁）坠楼<br />
+                        &nbsp;&nbsp;备注：死前称“有人站在我身后”<br />
+                        · 2012年：王海（28岁）死亡<br />
+                        &nbsp;&nbsp;备注：现场发现笔记本，上书“别回头”<br />
+                        · 2019年：赵明礼（71岁）心脏病<br />
+                        &nbsp;&nbsp;备注：监控显示其在楼道内与“人”对话，但无第二人
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 结论：上述死者均非直接死于他杀。<br />死因可归结为 <span class="red">认知失调</span>。</p>
+                </div>
+            </div>
+
+            <!-- F-002 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">F-002</span>
+                    <span class="title">302室 · 镜层关联</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>2023年</p>
+                    <p><strong>关联编号：</strong>M-001-01 / F-001</p>
+                    <div class="block">
+                        <strong>分析结论：</strong><br />
+                        302室位于镜层和地表之间最薄的空间点上。<br />
+                        该位置会间歇性地接收镜层的低频信号。<br />
+                        信号形式包括：声音、温度变化、视觉干扰。<br />
+                        非直接接触镜层，仅为“信号辐射区”。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：该分析基于1982年地质勘探数据和1995年福利院建筑图纸。<br />未经验证。</p>
+                </div>
+            </div>
+
+            <!-- P-001 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">P-001</span>
+                    <span class="title">陈秋生 · 特别关注</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1995年12月</p>
+                    <p><strong>关联人：</strong>陈秋生</p>
+                    <div class="block">
+                        <strong>记录：</strong><br />
+                        陈秋生是唯一已知的从镜层返回的人类个体。<br />
+                        返回时间：1995年6月（福利院关停前四个月）。<br />
+                        返回后状态：沉默、封闭、不愿谈论镜层。<br />
+                        仅留下一句话：<span class="highlight">“那个叔叔让我别说话。”</span>
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：陈秋生于1995年10月离开江陵县，去向不明。<br />2008年曾有目击记录，未证实。</p>
+                </div>
+            </div>
+
+            <!-- P-002 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">P-002</span>
+                    <span class="title">苏晚 · 调查记录</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>2026年4月</p>
+                    <p><strong>关联人：</strong>苏晚</p>
+                    <div class="block">
+                        <strong>调查路径：</strong><br />
+                        1. 江陵县档案馆 · 1995年福利院档案 → 发现陈秋生<br />
+                        2. 本地论坛 · 西郊停车场讨论 → 获得密码线索<br />
+                        3. 周怀义个人文件夹 → 42码脚印 → 确认静默者存在<br />
+                        4. 陈秋生后续追踪 → 联系陈秋生<br />
+                        5. 最终去向：<span class="red">已找到陈秋生</span>
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 备注：苏晚未进入镜层，但她已经知道镜层的存在。<br />她目前与陈秋生在一起，位置不明。</p>
+                </div>
+            </div>
+
+            <!-- U-001 -->
+            <div class="archive-item">
+                <div class="item-header" onclick="toggleDoc(this)">
+                    <span class="id">U-001</span>
+                    <span class="title">未分类 · 美丽的世界</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="item-body">
+                    <p><strong>收录日期：</strong>1995年12月</p>
+                    <p><strong>关联编号：</strong>M-001-02</p>
+                    <div class="block">
+                        <strong>溯源分析：</strong><br />
+                        “美丽的世界”一词最早出现在1995年福利院关停后的儿童档案中。<br />
+                        多名儿童的安置去向栏被填写为“美丽的世界”。<br />
+                        该词并非福利院官方用语，疑似由某位工作人员手写输入。<br />
+                        手写笔迹鉴定：<span class="red">不明</span>。
+                    </div>
+                    <div class="divider"></div>
+                    <p class="muted">📌 结论：该词可能源自镜层内儿童对镜层的称呼。<br />具体来源无法确认。</p>
+                </div>
+            </div>
+
+            <div style="margin-top:6px; padding:6px 12px; font-size:11px; color:#333; text-align:center; border-top:1px solid #1a1a1a;">
+                共 9 份档案 · 最后更新：2026年
+            </div>
+
+        </div>
+
+        <!-- ===== 底部 ===== -->
+        <div class="footer">
+            <span class="review">📋 下次定期审核：2030年</span>
+            <span><a href="archive.html">← 返回档案馆</a></span>
+            <span><a href="index.html">🕐 返回时光机</a></span>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 登录逻辑
+        // ================================================================
+        function doLogin() {
+            var username = document.getElementById('usernameInput').value.trim();
+            var password = document.getElementById('passwordInput').value.trim();
+            var error = document.getElementById('loginError');
+
+            if (username === 'archivist' && password === 'mirror') {
+                error.textContent = '';
+                document.getElementById('loginArea').style.display = 'none';
+                document.getElementById('archiveList').classList.add('show');
+                // 滚动到档案列表
+                setTimeout(function() {
+                    document.getElementById('archiveList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+                console.log('%c✅ 登录成功 · 欢迎，档案管理员', 'font-size:13px; color:#448844;');
+            } else if (username === '' || password === '') {
+                error.textContent = '⚠️ 请输入账号和密码';
+            } else {
+                error.textContent = '❌ 账号或密码错误';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+                setTimeout(function() {
+                    error.textContent = '';
+                }, 3000);
+            }
+        }
+
+        // 回车触发登录
+        document.getElementById('usernameInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('passwordInput').focus();
+            }
+        });
+
+        document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') doLogin();
+        });
+
+        // 自动聚焦
+        window.addEventListener('load', function() {
+            document.getElementById('usernameInput').focus();
+        });
+
+        // ================================================================
+        // 展开/收起档案
+        // ================================================================
+        function toggleDoc(header) {
+            var body = header.nextElementSibling;
+            var arrow = header.querySelector('.arrow');
+            if (body) {
+                body.classList.toggle('open');
+                if (arrow) {
+                    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+                }
+            }
+        }
+
+        // ================================================================
+        // 控制台
+        // ================================================================
+        console.clear();
+        console.log('%c📂 超自然档案馆 · 登录', 'font-size:16px; color:#b0a898; font-weight:bold;');
+        console.log('%c🔒 需要工作人员账号才能访问', 'font-size:12px; color:#664444;');
+        console.log('%c💡 账号线索：档案管理员', 'font-size:12px; color:#444;');
+        console.log('%c💡 密码线索：镜层', 'font-size:12px; color:#444;');
+    </script>
+
+</body>
+</html>

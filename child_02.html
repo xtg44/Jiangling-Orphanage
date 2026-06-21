@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>陈秋生 · 个人档案</title>
+    <title>编号04 · 儿童档案</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #e8e4dc;
             font-family: "宋体", "SimSun", "Times New Roman", serif;
@@ -20,48 +19,54 @@
             min-height: 100vh;
             color: #222;
         }
-
-        .profile-wrapper {
+        .wrapper {
             max-width: 700px;
             width: 100%;
             background: #f5f0e8;
             border: 2px solid #b0a898;
             padding: 24px 28px 20px;
+            position: relative;
         }
 
-        /* ===== 头部 ===== */
-        .profile-header {
+        /* ===== 篡改警告 ===== */
+        .tamper-banner {
+            background: #1a0a0a;
+            color: #cc6666;
+            text-align: center;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-family: "Courier New", "宋体", monospace;
+            border-bottom: 2px solid #cc3333;
+            margin: -24px -28px 18px -28px;
+            letter-spacing: 1px;
+        }
+        .tamper-banner .time {
+            color: #ff8888;
+        }
+
+        .header {
             border-bottom: 3px double #b0a898;
             padding-bottom: 12px;
             margin-bottom: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 8px;
         }
-
-        .profile-header .title {
+        .header .title {
             font-size: 20px;
             font-weight: bold;
             color: #2a1a1a;
             letter-spacing: 2px;
         }
-
-        .profile-header .badge {
+        .header .sub {
             font-size: 12px;
             color: #8a7a6a;
             letter-spacing: 1px;
+            margin-top: 2px;
         }
-
-        /* ===== 档案内容 ===== */
-        .profile-card {
+        .card {
             border: 1px solid #b0a898;
             background: #fcf8f0;
             margin-bottom: 14px;
         }
-
-        .profile-card .card-header {
+        .card .card-header {
             background: #e8e0d6;
             padding: 8px 14px;
             border-bottom: 1px solid #b0a898;
@@ -69,40 +74,37 @@
             font-size: 14px;
             color: #2a1a1a;
         }
-
-        .profile-card .card-body {
+        .card .card-body {
             padding: 14px 18px;
             font-size: 14px;
             line-height: 2.2;
             color: #2a1a1a;
         }
-
-        .profile-card .card-body .field {
+        .card .card-body .field {
             display: flex;
             gap: 12px;
             padding: 2px 0;
         }
-
-        .profile-card .card-body .field .label {
+        .card .card-body .field .label {
             font-weight: bold;
             min-width: 80px;
             color: #4a3d30;
         }
-
-        .profile-card .card-body .field .value {
+        .card .card-body .field .value {
             color: #2a1a1a;
         }
-
-        .profile-card .card-body .field .value .redacted {
-            background: #2a2a2a;
-            color: #2a2a2a;
-            padding: 0 12px;
-            letter-spacing: 4px;
-            user-select: none;
-            border-radius: 2px;
+        .card .card-body .field .value .unknown {
+            color: #8a7a6a;
+            font-style: italic;
         }
-
-        /* ===== 备注区 ===== */
+        .card .card-body .field .value .struck {
+            text-decoration: line-through;
+            color: #8a7a6a;
+        }
+        .card .card-body .field .value .beautiful {
+            color: #b83030;
+            font-weight: bold;
+        }
         .note-block {
             background: #fcf8f0;
             border: 1px solid #b0a898;
@@ -112,22 +114,10 @@
             color: #4a3d30;
             line-height: 2;
         }
-
         .note-block .highlight {
             color: #b83030;
         }
-
-        .note-block .redacted {
-            background: #2a2a2a;
-            color: #2a2a2a;
-            padding: 0 12px;
-            letter-spacing: 4px;
-            user-select: none;
-            border-radius: 2px;
-        }
-
-        /* ===== 底部 ===== */
-        .profile-footer {
+        .footer {
             margin-top: 18px;
             padding-top: 12px;
             border-top: 2px solid #b0a898;
@@ -138,129 +128,118 @@
             font-size: 12px;
             color: #8a7a6a;
         }
-
-        .profile-footer a {
+        .footer a {
             color: #4a3d30;
             text-decoration: none;
             border-bottom: 1px solid transparent;
         }
-
-        .profile-footer a:hover {
+        .footer a:hover {
             border-bottom-color: #4a3d30;
         }
-
-        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
-            .profile-wrapper {
+            .wrapper {
                 padding: 14px 14px 16px;
             }
-            .profile-header .title {
+            .tamper-banner {
+                margin: -14px -14px 14px -14px;
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+            .header .title {
                 font-size: 17px;
             }
-            .profile-card .card-body {
+            .card .card-body {
                 font-size: 13px;
                 padding: 10px 12px;
             }
-            .profile-card .card-body .field {
+            .card .card-body .field {
                 flex-direction: column;
                 gap: 0;
             }
-            .profile-card .card-body .field .label {
+            .card .card-body .field .label {
                 min-width: auto;
-            }
-            .note-block {
-                font-size: 12px;
-                padding: 10px 12px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .profile-wrapper {
-                padding: 10px 8px 12px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-wrapper">
+    <div class="wrapper">
 
-        <!-- ===== 头部 ===== -->
-        <div class="profile-header">
-            <div class="title">📋 个人档案</div>
-            <div class="badge">江陵县福利院 · 儿童档案</div>
+        <!-- ===== 篡改警告 ===== -->
+        <div class="tamper-banner">
+            ⚠️ 该页面在 <span class="time" id="tamperTime">--:--</span> 被未知用户修改
         </div>
 
-        <!-- ===== 档案卡片 ===== -->
-        <div class="profile-card">
-            <div class="card-header">👤 陈秋生</div>
-            <div class="card-body">
+        <div class="header">
+            <div class="title">📋 儿童档案 · 编号04</div>
+            <div class="sub">江陵县福利院 · 1990年登记</div>
+        </div>
 
+        <div class="card">
+            <div class="card-header">👤 基本信息</div>
+            <div class="card-body">
                 <div class="field">
                     <span class="label">姓名：</span>
-                    <span class="value">陈秋生</span>
+                    <span class="value"><span class="unknown">unknown</span></span>
                 </div>
                 <div class="field">
                     <span class="label">性别：</span>
-                    <span class="value">男</span>
+                    <span class="value">女</span>
                 </div>
                 <div class="field">
-                    <span class="label">出生日期：</span>
-                    <span class="value">1990年</span>
+                    <span class="label">出生年份：</span>
+                    <span class="value">1988年</span>
                 </div>
                 <div class="field">
                     <span class="label">入福利院时间：</span>
-                    <span class="value">1990年</span>
+                    <span class="value">1988年</span>
                 </div>
                 <div class="field">
                     <span class="label">档案编号：</span>
-                    <span class="value">FLY-1990-008</span>
+                    <span class="value">FLY-1988-004</span>
                 </div>
                 <div class="field">
                     <span class="label">安置时间：</span>
-                    <span class="value">1995年</span>
+                    <span class="value"><span class="unknown">unknown</span></span>
                 </div>
                 <div class="field">
                     <span class="label">安置去向：</span>
-                    <span class="value">unknown</span>
+                    <span class="value">
+                        <span class="struck">暂无</span>
+                        <span class="beautiful"> 美丽的世界</span>
+                    </span>
                 </div>
-                <div class="field">
-                    <span class="label">当前状态：</span>
-                    <span class="value">unknown</span>
-                </div>
-
             </div>
         </div>
 
-        <!-- ===== 备注 ===== -->
         <div class="note-block">
             <strong>📌 备注</strong><br />
-            陈秋生为江陵县福利院最后一批在册儿童之一。<br />
-            1995年福利院关闭后，其安置记录在移交过程中<span class="highlight">遗失</span>。<br />
-            据档案管理员手写备注：<br />
-            <span style="display:block; padding-left:16px; margin-top:4px; border-left:3px solid #b0a898;">
-                “该儿童去向不明，建议进一步核查。<br />
-                最后一次记录：<span class="highlight">江陵县</span>，1995年10月。”
-            </span>
+            该儿童是福利院 <span class="highlight">唯一有部分后续记录</span> 的儿童。<br />
+            1998年，一名自称“福利院前工作人员”的人向民政局询问该儿童的情况。<br />
+            该工作人员留下的名字是：<span class="highlight">刘秀英</span>。<br />
+            <span style="font-size:12px; color:#8a7a6a;">—— 刘秀英曾在友联贸易公司任职，1999年离职。</span>
             <div style="margin-top:6px; font-size:12px; color:#8a7a6a; text-align:right;">
-                —— 档案编号：FLY-1990-008 · 最后更新：1995年10月
+                —— 档案状态：部分信息缺失 · 关联到港口路39号
             </div>
         </div>
 
-        <!-- ===== 底部 ===== -->
-        <div class="profile-footer">
-            <a href="archive.html">← 返回档案馆</a>
-            <a href="index.html">🕐 返回时光机</a>
-            <span>© 江陵县档案馆</span>
+        <div class="footer">
+            <a href="child_01.html">← 上一个档案</a>
+            <a href="archive.html">返回档案馆 →</a>
         </div>
 
     </div>
 
     <script>
-        console.clear();
-        console.log('%c📋 陈秋生 · 个人档案', 'font-size:16px; color:#2a1a1a; font-weight:bold;');
-        console.log('%c💡 安置去向被涂黑了。去向不明。', 'font-size:13px; color:#8a7a6a;');
-        console.log('%c💡 最后一次记录：江陵县，1995年10月', 'font-size:13px; color:#8a7a6a;');
+        // 更新时间：当前时间前1分钟
+        (function() {
+            var now = new Date();
+            now.setMinutes(now.getMinutes() - 1);
+            var hours = String(now.getHours()).padStart(2, '0');
+            var mins = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('tamperTime').textContent = hours + ':' + mins;
+        })();
     </script>
 
 </body>

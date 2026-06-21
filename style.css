@@ -270,6 +270,12 @@ body {
     .snapshot .left .year {
         font-size: 16px;
     }
+    .unknown {
+    color: #8a7a6a;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    }
 }
 
 @media (max-width: 400px) {

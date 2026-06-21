@@ -60,11 +60,86 @@
             margin-bottom: 20px;
         }
 
-        .choice-area {
+        /* ===== 密码锁 ===== */
+        .lock-area {
+            text-align: center;
+            padding: 20px 0 16px;
+            border-top: 2px solid #ddd0bf;
+            margin-bottom: 10px;
+        }
+
+        .lock-area .lock-icon {
+            font-size: 36px;
+            margin-bottom: 4px;
+        }
+
+        .lock-area .lock-prompt {
+            font-size: 14px;
+            color: #6a5a48;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .lock-area .lock-input-group {
             display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lock-area .lock-input-group input {
+            padding: 8px 14px;
+            font-size: 20px;
+            font-family: "宋体", "SimSun", serif;
+            text-align: center;
+            letter-spacing: 6px;
+            border: 2px solid #b8a68b;
+            background: #fcf8f0;
+            color: #4a3d30;
+            outline: none;
+            width: 160px;
+        }
+
+        .lock-area .lock-input-group input:focus {
+            border-color: #8a7a6a;
+        }
+
+        .lock-area .lock-input-group button {
+            padding: 8px 24px;
+            font-size: 15px;
+            font-family: "宋体", "SimSun", serif;
+            background: #b8a68b;
+            border: 2px solid #b8a68b;
+            color: #f7f2e6;
+            cursor: pointer;
+            transition: background 0.2s;
+            letter-spacing: 2px;
+        }
+
+        .lock-area .lock-input-group button:hover {
+            background: #8f7d66;
+            border-color: #8f7d66;
+        }
+
+        .lock-error {
+            font-size: 13px;
+            color: #8a3a2a;
+            min-height: 22px;
+            margin-top: 6px;
+        }
+
+        /* ===== 选择区域（默认隐藏） ===== */
+        .choice-area {
+            display: none;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .choice-btn {
@@ -141,15 +216,29 @@
 
         .egg-trigger {
             color: #ddd0bf;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
             user-select: none;
             transition: color 0.3s;
             display: inline-block;
             padding: 0 8px;
+            line-height: 1;
         }
 
         .egg-trigger:hover {
+            color: #8a7a6a;
+        }
+
+        .egg-trigger .hint {
+            display: block;
+            font-size: 10px;
+            color: #ddd0bf;
+            letter-spacing: 2px;
+            margin-top: 2px;
+            transition: color 0.3s;
+        }
+
+        .egg-trigger:hover .hint {
             color: #8a7a6a;
         }
 
@@ -221,6 +310,10 @@
                 max-width: 100%;
                 width: 100%;
             }
+            .lock-area .lock-input-group input {
+                width: 120px;
+                font-size: 18px;
+            }
             .egg-input-wrapper input {
                 width: 110px;
                 font-size: 16px;
@@ -243,24 +336,22 @@
             陈秋生随收养家庭迁离江陵县后，再也没有人见过他。<br />
             42码脚印消失在同一天。<br />
             <br />
-            你相信哪一个？
+            在做出选择之前，请先输入一个年份。
         </div>
+
         <!-- ===== 密码锁 ===== -->
         <div class="lock-area" id="lockArea">
             <div class="lock-icon">🔒</div>
-            <p class="lock-prompt">输入年份</p>
+            <div class="lock-prompt">输入年份以解锁最终抉择</div>
             <div class="lock-input-group">
                 <input type="password" id="lockInput" maxlength="4" placeholder="— — — —" />
                 <button onclick="unlockFinal()">解锁</button>
             </div>
             <div class="lock-error" id="lockError"></div>
         </div>
-        
+
         <!-- ===== 选择区域（默认隐藏） ===== -->
-        <div class="choice-area" id="choiceArea" style="display:none;">
-            ...
-        </div>
-        <div class="choice-area">
+        <div class="choice-area" id="choiceArea">
             <a href="ending_truth.html" class="choice-btn">
                 <span class="icon">📋</span>
                 真相
@@ -280,7 +371,10 @@
 
         <!-- ===== 隐藏彩蛋输入框 ===== -->
         <div class="egg-area">
-            <div class="egg-trigger" onclick="showEggInput()">·</div>
+            <div class="egg-trigger" onclick="showEggInput()">
+                ·
+                <span class="hint">· · ·</span>
+            </div>
             <div class="egg-input-wrapper" id="eggInputWrapper">
                 <input type="password" id="eggInput" maxlength="4" placeholder="— — — —" />
                 <button onclick="checkEgg()">→</button>
@@ -291,6 +385,35 @@
     </div>
 
     <script>
+        // ================================================================
+        // 密码锁
+        // ================================================================
+        function unlockFinal() {
+            var input = document.getElementById('lockInput');
+            var error = document.getElementById('lockError');
+            var val = input.value.trim();
+
+            if (val === '1970') {
+                error.textContent = '';
+                document.getElementById('lockArea').style.display = 'none';
+                document.getElementById('choiceArea').style.display = 'flex';
+                document.getElementById('choiceArea').style.animation = 'fadeIn 0.5s ease';
+            } else if (val === '') {
+                error.textContent = '⚠️ 请输入年份';
+            } else {
+                error.textContent = '❌ 年份错误';
+                input.value = '';
+                input.focus();
+                setTimeout(function() {
+                    error.textContent = '';
+                }, 2000);
+            }
+        }
+
+        document.getElementById('lockInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') unlockFinal();
+        });
+
         // ================================================================
         // 隐藏彩蛋
         // ================================================================
@@ -327,27 +450,6 @@
         document.getElementById('eggInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') checkEgg();
         });
-        function unlockFinal() {
-        var input = document.getElementById('lockInput');
-        var error = document.getElementById('lockError');
-        var val = input.value.trim();
-    
-        if (val === '1990') {
-            error.textContent = '';
-            document.getElementById('lockArea').style.display = 'none';
-            document.getElementById('choiceArea').style.display = 'flex';
-            document.getElementById('choiceArea').style.animation = 'fadeIn 0.5s ease';
-        } else if (val === '') {
-            error.textContent = '⚠️ 请输入年份';
-        } else {
-            error.textContent = '❌ 年份错误';
-            input.value = '';
-            input.focus();
-            setTimeout(function() {
-                error.textContent = '';
-            }, 2000);
-        }
-    }
     </script>
 
 </body>
