@@ -245,7 +245,21 @@
             <br />
             你相信哪一个？
         </div>
-
+        <!-- ===== 密码锁 ===== -->
+        <div class="lock-area" id="lockArea">
+            <div class="lock-icon">🔒</div>
+            <p class="lock-prompt">输入年份</p>
+            <div class="lock-input-group">
+                <input type="password" id="lockInput" maxlength="4" placeholder="— — — —" />
+                <button onclick="unlockFinal()">解锁</button>
+            </div>
+            <div class="lock-error" id="lockError"></div>
+        </div>
+        
+        <!-- ===== 选择区域（默认隐藏） ===== -->
+        <div class="choice-area" id="choiceArea" style="display:none;">
+            ...
+        </div>
         <div class="choice-area">
             <a href="ending_truth.html" class="choice-btn">
                 <span class="icon">📋</span>
@@ -313,10 +327,27 @@
         document.getElementById('eggInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') checkEgg();
         });
-
-        console.clear();
-        console.log('%c⚖️ 最终抉择', 'font-size:18px; color:#3d3228; font-weight:bold;');
-        console.log('%c💡 底部有一个很小的 · 点击它试试', 'font-size:13px; color:#8f7d66;');
+        function unlockFinal() {
+        var input = document.getElementById('lockInput');
+        var error = document.getElementById('lockError');
+        var val = input.value.trim();
+    
+        if (val === '1990') {
+            error.textContent = '';
+            document.getElementById('lockArea').style.display = 'none';
+            document.getElementById('choiceArea').style.display = 'flex';
+            document.getElementById('choiceArea').style.animation = 'fadeIn 0.5s ease';
+        } else if (val === '') {
+            error.textContent = '⚠️ 请输入年份';
+        } else {
+            error.textContent = '❌ 年份错误';
+            input.value = '';
+            input.focus();
+            setTimeout(function() {
+                error.textContent = '';
+            }, 2000);
+        }
+    }
     </script>
 
 </body>
